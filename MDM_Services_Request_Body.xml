@@ -1,0 +1,43 @@
+<soapenv:Envelope xmlns:par="http://www.ibm.com/mdm/port/Party" xmlns:sch="http://www.ibm.com/mdm/schema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+   <soapenv:Header>
+      <wsse:Security soapenv:mustUnderstand="1" xmlns:wsse="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
+         <wsse:UsernameToken wsu:Id="UsernameToken-66F3922F0905AC057514551422771036">
+            <wsse:Username>ogntstusr</wsse:Username>
+            <wsse:Password Type="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordText">Password03</wsse:Password>
+         </wsse:UsernameToken>
+      </wsse:Security>
+   </soapenv:Header>
+   <soapenv:Body>
+      <par:searchPerson>
+         <sch:RequestControl>
+            <sch:requestID>8623737652321210368</sch:requestID>
+            <sch:DWLControl>
+               <!--Optional:-->
+               <sch:requesterName>ogntstusr</sch:requesterName>
+               <!--Optional:-->
+               <sch:requesterLanguage>100</sch:requesterLanguage>
+            </sch:DWLControl>
+         </sch:RequestControl>
+         <sch:TCRMPersonSearchBObj>
+            <sch:MaxReturn>10</sch:MaxReturn>
+            <!--Optional:-->
+            <sch:GivenNameOne>Pascale</sch:GivenNameOne>
+            <sch:LastName>Basil</sch:LastName>
+            <!--Optional:-->
+           <sch:DateOfBirth>1989-07-13</sch:DateOfBirth>
+           <!-- <sch:ZipPostalCode>84120%</sch:ZipPostalCode>-->
+            <!--<sch:IdentificationNum>399258891</sch:IdentificationNum>-->
+            <sch:IdentificationType>1</sch:IdentificationType>
+            <sch:InquiryLevelSource>1</sch:InquiryLevelSource>
+            <!--Optional:-->
+            <sch:InquiryLevelType>1</sch:InquiryLevelType>
+            <!--Optional:-->
+            <sch:PartyFilter>ALL</sch:PartyFilter>
+            <!--Optional:-->
+            <sch:SearchByPhoneticAddressInd>N</sch:SearchByPhoneticAddressInd>
+            <!--Optional:-->
+            <sch:SearchByPhoneticNameInd>N</sch:SearchByPhoneticNameInd>
+         </sch:TCRMPersonSearchBObj>
+      </par:searchPerson>
+   </soapenv:Body>
+</soapenv:Envelope>

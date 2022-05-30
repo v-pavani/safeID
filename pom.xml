@@ -1,0 +1,576 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.uhg</groupId>
+		<artifactId>parent</artifactId>
+		<version>2.0.1</version>
+		<relativePath></relativePath>
+	</parent>
+
+	<groupId>com.optum.synergy</groupId>
+	<artifactId>reference</artifactId>
+	<version>0.1-SNAPSHOT</version>
+
+	<name>com.optum.synergy.reference</name>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<poi.version>3.9</poi.version>
+<!-- ORIGINAL SELENIUM:		<selenium.version>2.52.0</selenium.version> -->
+		<selenium.version>3.4.0</selenium.version>
+		<!-- Number of simultaneous tests to run. Email addresses likely limiting 
+			factor -->
+		<threadCount>10</threadCount>
+		<!-- WARNING Cannot run maven job with -Dcucumber.options when execution 
+			includes Scenario Outline. This leads to multiple executions of the same 
+			scenario + example row when using cucumber-jvm-parallel's SCENARIO parallelScheme. -->
+		<!-- Tags to run. Comma-separated list to be OR'ed -->
+		<tagsToRun>@XMLFIXED</tagsToRun>
+		<!-- Tags to ignore. Comma-separated list to be OR'ed
+		     Set to ~@DUMMYIGNORE to keep all tests
+		-->
+		<parallelScheme>FEATURE</parallelScheme>
+		<tagsToIgnore>~@WIP</tagsToIgnore>
+		<otherTagsToIgnore>~@DUMMYIGNORE</otherTagsToIgnore>
+		<DataTagsToIgnore>~@WIP_DataIssue</DataTagsToIgnore>
+		<DefectTagsToIgnore>~@WIP_Defect</DefectTagsToIgnore>
+		<ContentTagsToIgnore>~@WIP_ContentIssue</ContentTagsToIgnore>
+		<PhoneTagsToIgnoreRegression>~@RegressionPhone</PhoneTagsToIgnoreRegression>
+		<PhoneTagsToIgnoreSmoke>~@SmokePhone</PhoneTagsToIgnoreSmoke>
+
+<!-- 		<reportclass>utilityReport</reportclass> -->
+		<reportclass>HTMLReport</reportclass>
+		<surefire.version>2.22.0</surefire.version>
+		<failsafe.version>2.22.0</failsafe.version>
+	</properties>
+	<!-- Test -->
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>2.17.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.optum.synergy</groupId>
+			<artifactId>synergy-common</artifactId>
+			<version>0.1.5-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-scratchpad</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.skyscreamer</groupId>
+			<artifactId>jsonassert</artifactId>
+			<version>1.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.4</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-java</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-picocontainer</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>info.cukes</groupId>
+			<artifactId>cucumber-junit</artifactId>
+			<version>1.2.4</version>
+		</dependency>
+		<!-- <dependency> <groupId>info.cukes</groupId> <artifactId>cucumber-core</artifactId> 
+			<version>1.2.4</version> </dependency> -->
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-remote-driver</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-api</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-client</artifactId>
+			<version>1.19.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-support</artifactId>
+			<version>${selenium.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+			<version>1.3.3.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>3.0.1.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-annotations</artifactId>
+			<version>2.5.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
+		<dependency>
+			<groupId>com.googlecode.json-simple</groupId>
+			<artifactId>json-simple</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>dom4j</groupId>
+			<artifactId>dom4j</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1.6</version>
+		</dependency>
+		<!-- dependency> <groupId>org.apache.commons</groupId> <artifactId> -lang3</artifactId> 
+			<version>3.4</version> </dependency -->
+		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.6</version>
+		</dependency>
+
+		<dependency>
+			<groupId>xml-apis</groupId>
+			<artifactId>xml-apis</artifactId>
+			<version>1.4.01</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+		<dependency>
+			<!-- jsoup HTML parser library @ http://jsoup.org/ -->
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+			<version>1.10.2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.github.temyers</groupId>
+			<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.db2.jcc</groupId>
+			<artifactId>db2jcc</artifactId>
+			<version>9.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.ibm.db2</groupId>
+			<artifactId>db2jcc4</artifactId>
+			<version>9.7.0.2</version>
+		</dependency>
+		<dependency>
+	        <groupId>net.masterthought</groupId>
+	        <artifactId>maven-cucumber-reporting</artifactId>
+	        <version>3.9.0</version>
+	    </dependency>
+		<dependency>
+		    <groupId>commons-httpclient</groupId>
+		    <artifactId>commons-httpclient</artifactId>
+		    <version>3.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.oracle</groupId>
+		  	<artifactId>ojdbc6</artifactId>
+		  	<version>12.1.0.2</version>
+         </dependency>
+         <dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>4.3.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-clean-plugin</artifactId>
+<!-- 				<version>3.0.0</version> -->
+				<executions>
+					<execution>
+						<id>Deleting all files under target, but not target itself</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<excludeDefaultDirectories>true</excludeDefaultDirectories>
+					<filesets>
+						<fileset>
+							<directory>target/</directory>
+							<followSymlinks>false</followSymlinks>
+							<includes>
+								<include>**/*</include>
+							</includes>
+						</fileset>
+					</filesets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<properties>
+						<arbitrary.property>This is some text</arbitrary.property>
+					</properties>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<compilerArgument></compilerArgument>					
+				</configuration>
+			</plugin>
+			<!--
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>  <!-- Moving test execution to failsafe plugin -->
+					<testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
+					<testSourceDirectory>${basedir}/src/main/resources/</testSourceDirectory>
+					<testClassesDirectory>${project.build.directory}/test-classes/</testClassesDirectory>
+					<testFailureIgnore>true</testFailureIgnore>
+					<disableXmlReport>true</disableXmlReport>
+					<reportsDirectory>${basedir}/target/surefire-reports</reportsDirectory>
+					<outputDirectory>${basedir}/target/surefire-reports</outputDirectory>
+
+					<includes>
+						<include>**/Parallel*Runner.class</include>
+					</includes>
+
+					<argLine>-DaddProp=true</argLine>
+					<argLine>-DmultProp=false</argLine>
+
+					<systemPropertyVariables>
+						<BrowserEnv>local</BrowserEnv>
+						<ExecutionEnv>Stage</ExecutionEnv>
+					</systemPropertyVariables>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>createCucumberReportDirs</id>
+						<phase>process-resources</phase>
+						<configuration>
+							<target>
+								<mkdir dir="${project.build.directory}/cucumber-parallel/json" />
+								<mkdir dir="${project.build.directory}/cucumber-parallel/html" />
+								<mkdir dir="${project.build.directory}/cucumber-parallel/junit" />								
+							</target>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+					<encoding>UTF-8</encoding>
+					<testFailureIgnore>true</testFailureIgnore>
+					<testSourceDirectory>${basedir}/src/main/java/</testSourceDirectory>
+					<testSourceDirectory>${basedir}/src/main/resources/</testSourceDirectory>
+					<testClassesDirectory>${project.build.directory}/test-classes/</testClassesDirectory>
+					<includes>
+						<include>**/Parallel*Runner.class</include>
+					</includes>
+
+					<perCoreThreadCount>false</perCoreThreadCount>
+					<parallel>classes</parallel>
+
+					<systemPropertyVariables>
+						<BrowserEnv>saucelab</BrowserEnv>
+						<ExecutionEnv>Stage</ExecutionEnv>
+					</systemPropertyVariables>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.temyers</groupId>
+				<artifactId>cucumber-jvm-parallel-plugin</artifactId>
+				<version>4.1.0</version>
+				<executions>
+					<execution>
+						<id>generateRunners</id>
+						<phase>generate-test-sources</phase>
+						<goals>
+							<goal>generateRunners</goal>
+						</goals>
+						<configuration>
+							<!-- Mandatory -->
+							<!-- comma separated list of package names to scan for glue code -->
+							<glue>
+								<package>com.optum.synergy.reference.ui.stepDefinitions</package>
+								<package>com.optum.synergy.reference.ui.utility</package>
+							</glue>
+							<!-- These are optional, with the default values -->
+							<!-- Where to output the generated tests -->
+							<outputDirectory>${project.build.directory}/generated-test-sources/cucumber</outputDirectory>
+							<!-- The directory, which must be in the root of the runtime classpath, 
+								containing your feature files. -->
+							<featuresDirectory>src/main/resources/ui/features</featuresDirectory>
+							<!-- featuresDirectory>src/test/resources/features</featuresDirectory -->
+							<!-- Directory where the cucumber report files shall be written -->
+							<!-- cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir -->
+							<cucumberOutputDir>target/cucumber-parallel</cucumberOutputDir>
+							<!-- List of cucumber plugins. When none are provided the json formatter 
+								is used. For more advanced usage see section about configuring cucumber plugins -->
+							<plugins>
+								<plugin>
+									<name>json</name>
+									<outputDirectory>${project.build.directory}/cucumber-parallel/json</outputDirectory>
+								</plugin>
+								<plugin>
+									<name>html</name>
+									<outputDirectory>${project.build.directory}/cucumber-parallel/html</outputDirectory>
+								</plugin>
+								<plugin>
+									<!--The available options are junit, testng, html, pretty, json, 
+										usage and rerun -->
+									<name>junit</name>
+									<!--Optional file extension. For build in cucumber plugins a sensible 
+										default is provided. -->
+									<!--Optional output directory. Overrides cucumberOutputDirectory. 
+										Usefull when different plugins create files with the same extension -->
+									<outputDirectory>${project.build.directory}/cucumber-parallel/junit</outputDirectory>
+								</plugin>
+							</plugins>
+							<!-- CucumberOptions.strict property -->
+							<strict>true</strict>
+							<!-- CucumberOptions.monochrome property -->
+							<monochrome>true</monochrome>
+							<!-- The tags to run, maps to CucumberOptions.tags property -->
+							<tags>
+								<tag>${tagsToRun}</tag>
+								<tag>${tagsToIgnore}</tag>
+								<tag>${otherTagsToIgnore}</tag>
+								<tag>${DataTagsToIgnore}</tag>
+								<tag>${DefectTagsToIgnore}</tag>
+								<tag>${ContentTagsToIgnore}</tag>
+								<tag>${PhoneTagsToIgnoreRegression}</tag>
+								<tag>${PhoneTagsToIgnoreSmoke}</tag>
+							</tags>
+							<!-- If set to true, only feature files containing the required tags 
+								shall be generated. -->
+							<filterFeaturesByTags>true</filterFeaturesByTags>
+							<!-- Generate TestNG runners instead of JUnit ones. -->
+							<useTestNG>false</useTestNG>
+							<!-- The naming scheme to use for the generated test classes. One 
+								of 'simple' or 'feature-title' -->
+							<namingScheme>pattern</namingScheme>
+							<!-- The class naming pattern to use. Only required/used if naming 
+								scheme is 'pattern'. -->
+							<namingPattern>Parallel{c}Runner</namingPattern>
+							<!-- One of [SCENARIO, FEATURE]. SCENARIO generates one runner per 
+								scenario. FEATURE generates a runner per feature. -->
+							<!--  <parallelScheme>SCENARIO</parallelScheme>  -->
+							<parallelScheme>${parallelScheme}</parallelScheme>
+							<!-- Specify a custom template for the generated sources (this is 
+								a path relative to the project base directory) -->
+							<customVmTemplate>src/main/resources/cucumber-custom-runner.vm</customVmTemplate>
+							<!-- Specify a custom package name for generated sources. Default 
+								is no package. -->
+							<packageName></packageName>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+<!-- CNYE: ADDED LOCAL CUCUMBER REPORT CONSOLIDATION
+RUN `mvn verify` to include this step after completing 
+integration-test phase -->
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>3.9.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>cucumber-jvm-example</projectName>
+                            <outputDirectory>${project.build.directory}/cucumber-html-reports</outputDirectory>
+                            <cucumberOutput>${project.build.directory}/cucumber-parallel/json/</cucumberOutput>
+                            <parallelTesting>false</parallelTesting>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+					<id>executionJava</id>
+						<phase>integration-test</phase>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<configuration>
+							<mainClass>com.optum.synergy.reference.ui.utility.${reportclass}</mainClass>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>            
+		
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.github.temyers
+										</groupId>
+										<artifactId>
+											cucumber-jvm-parallel-plugin
+										</artifactId>
+										<versionRange>
+											[4.1.0,)
+										</versionRange>
+										<goals>
+											<goal>generateRunners</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<execute></execute>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.apache.maven.plugins
+										</groupId>
+										<artifactId>
+											maven-antrun-plugin
+										</artifactId>
+										<versionRange>
+											[1.7,)
+										</versionRange>
+										<goals>
+											<goal>run</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+</project>
